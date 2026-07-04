@@ -1,0 +1,51 @@
+/* ============================================================
+   GeniusMath Africa — Base resets & brand utilities
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font: var(--text-base);
+  color: var(--text-strong);
+  background: var(--surface-app);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, p { margin: 0; }
+
+/* ---- The wordmark, rendered as type (Genius=orange, Math=blue) ---- */
+.gm-wordmark {
+  font: var(--text-h1);
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: var(--ls-tight);
+  line-height: 1;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 1px;
+}
+.gm-wordmark .gm-genius { color: var(--gm-orange); }
+.gm-wordmark .gm-math { color: var(--gm-blue); }
+.gm-wordmark .gm-africa {
+  color: var(--gm-green);
+  font-size: 0.42em;
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  align-self: flex-end;
+  margin-left: 6px;
+  padding-bottom: 0.15em;
+}
+
+/* ---- The illustrated-sky app backdrop ---- */
+.gm-sky-bg {
+  background:
+    radial-gradient(120% 80% at 50% 0%, var(--gm-sky-soft) 0%, var(--gm-sky) 55%, var(--gm-sky-deep) 100%);
+}
+
+/* ---- focus-visible affordance ---- */
+:where(a, button, input, [tabindex]):focus-visible {
+  outline: none;
+  box-shadow: var(--ring);
+}

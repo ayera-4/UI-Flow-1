@@ -1,0 +1,33 @@
+<!-- @dsCard group="Spacing" viewport="700x210" name="Radii & Shadows" subtitle="Very-rounded corners and soft warm shadows; tactile button lip" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../styles.css" />
+<style>
+  body { margin: 0; padding: 24px; background: var(--surface-app); color: var(--text-strong); }
+  .grp { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 18px; }
+  .tile { width: 120px; }
+  .box { height: 64px; background: #fff; display: flex; align-items: center; justify-content: center;
+         font: var(--text-sm); font-family: var(--font-body); font-weight: 800; color: var(--gm-slate); }
+  .cap { margin-top: 7px; font-family: ui-monospace, monospace; font-size: 11px; color: var(--text-muted); }
+  .lip { background: var(--gm-green); color: #fff; border-radius: var(--radius-pill); box-shadow: var(--lip-green); }
+</style>
+</head>
+<body>
+  <div class="grp">
+    <div class="tile"><div class="box" style="border-radius:var(--radius-sm)">sm</div><div class="cap">--radius-sm 10</div></div>
+    <div class="tile"><div class="box" style="border-radius:var(--radius-md)">md</div><div class="cap">--radius-md 16</div></div>
+    <div class="tile"><div class="box" style="border-radius:var(--radius-lg)">lg</div><div class="cap">--radius-lg 20</div></div>
+    <div class="tile"><div class="box" style="border-radius:var(--radius-xl)">xl</div><div class="cap">--radius-xl 28</div></div>
+    <div class="tile"><div class="box" style="border-radius:var(--radius-pill)">pill</div><div class="cap">--radius-pill</div></div>
+  </div>
+  <div class="grp">
+    <div class="tile"><div class="box" style="border-radius:var(--radius-lg);box-shadow:var(--shadow-sm)">sm</div><div class="cap">--shadow-sm</div></div>
+    <div class="tile"><div class="box" style="border-radius:var(--radius-lg);box-shadow:var(--shadow-card)">card</div><div class="cap">--shadow-card</div></div>
+    <div class="tile"><div class="box" style="border-radius:var(--radius-lg);box-shadow:var(--shadow-pop)">pop</div><div class="cap">--shadow-pop</div></div>
+    <div class="tile"><div class="box" style="border-radius:var(--radius-lg);box-shadow:var(--shadow-float)">float</div><div class="cap">--shadow-float</div></div>
+    <div class="tile"><div class="box lip">lip</div><div class="cap">--lip-green</div></div>
+  </div>
+</body>
+</html>

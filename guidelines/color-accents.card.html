@@ -1,0 +1,22 @@
+<!-- @dsCard group="Colors" viewport="700x140" name="Gamification Accents" subtitle="Coins, stars, XP, advanced tier, streak flame" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../styles.css" />
+<style>
+  body { margin: 0; padding: 20px; background: var(--surface-card); display: flex; gap: 12px; }
+  .sw { flex: 1; }
+  .chip { height: 64px; border-radius: var(--radius-md); box-shadow: var(--inset-gloss), var(--shadow-xs); }
+  .n { margin-top: 7px; font: var(--text-sm); font-family: var(--font-body); font-weight: 800; color: var(--text-strong); }
+  code { display: block; font-family: ui-monospace, monospace; font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+</style>
+</head>
+<body>
+  <div class="sw"><div class="chip" style="background:var(--gm-gold)"></div><div class="n">Gold / Coin</div><code>--gm-gold</code></div>
+  <div class="sw"><div class="chip" style="background:var(--gm-star)"></div><div class="n">Star</div><code>--gm-star</code></div>
+  <div class="sw"><div class="chip" style="background:var(--gm-purple)"></div><div class="n">Purple / Advanced</div><code>--gm-purple</code></div>
+  <div class="sw"><div class="chip" style="background:var(--gm-flame)"></div><div class="n">Flame / Streak</div><code>--gm-flame</code></div>
+  <div class="sw"><div class="chip" style="background:var(--gm-red)"></div><div class="n">Red / Error</div><code>--gm-red</code></div>
+</body>
+</html>

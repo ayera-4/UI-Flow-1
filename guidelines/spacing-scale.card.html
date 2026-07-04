@@ -1,0 +1,31 @@
+<!-- @dsCard group="Spacing" viewport="700x200" name="Spacing Scale & Tap Targets" subtitle="4px base grid · generous targets for young fingers" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../styles.css" />
+<style>
+  body { margin: 0; padding: 24px; background: var(--surface-card); color: var(--text-strong); }
+  .item { display: flex; align-items: center; gap: 14px; padding: 5px 0; }
+  .bar { background: var(--gm-blue); height: 16px; border-radius: 4px; }
+  .spec { font-family: ui-monospace, monospace; font-size: 12px; color: var(--text-muted); width: 150px; flex: none; }
+  .tap { display: flex; gap: 14px; margin-top: 12px; align-items: flex-end; }
+  .box { background: var(--gm-fill-green); border: 2px dashed var(--gm-green); border-radius: var(--radius-md);
+         display: flex; align-items: center; justify-content: center; font: var(--text-xs);
+         font-family: var(--font-body); font-weight: 800; color: var(--gm-green-dark); }
+</style>
+</head>
+<body>
+  <div class="item"><span class="spec">--space-1 · 4</span><div class="bar" style="width:4px"></div></div>
+  <div class="item"><span class="spec">--space-2 · 8</span><div class="bar" style="width:8px"></div></div>
+  <div class="item"><span class="spec">--space-4 · 16</span><div class="bar" style="width:16px"></div></div>
+  <div class="item"><span class="spec">--space-6 · 24</span><div class="bar" style="width:24px"></div></div>
+  <div class="item"><span class="spec">--space-8 · 32</span><div class="bar" style="width:32px"></div></div>
+  <div class="item"><span class="spec">--space-12 · 48</span><div class="bar" style="width:48px"></div></div>
+  <div class="tap">
+    <div class="box" style="width:48px;height:48px">48</div>
+    <div class="box" style="width:60px;height:60px">60</div>
+    <span class="spec" style="width:auto">--tap-min 48 · --tap-key 60 — never smaller</span>
+  </div>
+</body>
+</html>

@@ -1,0 +1,107 @@
+/* ============================================================
+   GeniusMath Africa — Color tokens
+   Warm, bright, tri-color brand grounded in East-African imagery.
+   Sampled from the app mockups (Genius=orange, Math=blue, AFRICA=green).
+   ============================================================ */
+
+:root {
+  /* ---------- Brand core (the wordmark trio) ---------- */
+  --gm-orange: #F2880E;        /* "Genius" — energy, rewards, replay   */
+  --gm-orange-light: #F9A340;
+  --gm-orange-dark: #D9740A;
+
+  --gm-blue: #2E7BC4;          /* "Math" — primary actions, headers     */
+  --gm-blue-light: #4D98DD;
+  --gm-blue-dark: #1F5C99;
+
+  --gm-green: #4D9736;         /* "AFRICA" — success, confirm, CTA       */
+  --gm-green-light: #6FB94F;
+  --gm-green-dark: #3C7A2A;
+
+  /* ---------- Gamification accents ---------- */
+  --gm-gold: #E9B128;          /* coins                                  */
+  --gm-gold-light: #F5C842;
+  --gm-star: #F7C948;          /* star ratings, XP shine                 */
+  --gm-purple: #9B7FC4;        /* "advanced" tier, accuracy, premium     */
+  --gm-purple-light: #C9B6E6;
+  --gm-purple-soft: #ECE3F8;   /* lavender card fill                     */
+  --gm-red: #E0533D;           /* error, locked alert, streak flame base */
+  --gm-flame: #FF7A1A;         /* streak flame                           */
+
+  /* ---------- Soft tier-card fills (level cards) ---------- */
+  --gm-fill-green: #DCEFCB;
+  --gm-fill-yellow: #FBEFC4;
+  --gm-fill-purple: #E6DCF5;
+  --gm-fill-blue: #D6EAF8;
+
+  /* ---------- Earth / scene tones ---------- */
+  --gm-earth: #C99A5B;         /* dirt road, market thatch               */
+  --gm-earth-light: #E8D2A8;
+  --gm-leaf: #7FB069;          /* foliage / hills                        */
+
+  /* ---------- Ink & neutrals ---------- */
+  --gm-ink: #283558;           /* primary text — deep blue-navy          */
+  --gm-ink-soft: #4A5677;
+  --gm-slate: #6B7793;         /* secondary text                         */
+  --gm-mute: #9AA4BC;          /* tertiary / placeholder                 */
+  --gm-line: #DDE4EE;          /* hairline borders                       */
+  --gm-line-soft: #EDF1F7;
+
+  --gm-white: #FFFFFF;
+  --gm-paper: #FFFDF7;         /* warm card paper                        */
+  --gm-cream: #FFF6E6;         /* warm panel fill                        */
+
+  /* ---------- Sky / app backgrounds ---------- */
+  --gm-sky: #E2F2FF;           /* default app background                 */
+  --gm-sky-soft: #EFF7FF;
+  --gm-sky-deep: #C9E4FA;
+
+  /* =========================================================
+     SEMANTIC ALIASES — reference these in components
+     ========================================================= */
+
+  /* surfaces & background */
+  --surface-app: var(--gm-sky);
+  --surface-card: var(--gm-white);
+  --surface-panel: var(--gm-paper);
+  --surface-sunken: var(--gm-sky-soft);
+  --surface-inverse: var(--gm-ink);
+
+  /* text */
+  --text-strong: var(--gm-ink);
+  --text-body: var(--gm-ink-soft);
+  --text-muted: var(--gm-slate);
+  --text-faint: var(--gm-mute);
+  --text-on-brand: var(--gm-white);
+  --text-link: var(--gm-blue);
+
+  /* primary action = blue */
+  --action-primary: var(--gm-blue);
+  --action-primary-hover: var(--gm-blue-dark);
+  --action-primary-fill: var(--gm-blue);
+
+  /* confirm / go = green */
+  --action-go: var(--gm-green);
+  --action-go-hover: var(--gm-green-dark);
+
+  /* reward / energy = orange */
+  --action-reward: var(--gm-orange);
+  --action-reward-hover: var(--gm-orange-dark);
+
+  /* state colors */
+  --state-success: var(--gm-green);
+  --state-warning: var(--gm-gold);
+  --state-error: var(--gm-red);
+  --state-info: var(--gm-blue);
+  --state-locked: var(--gm-mute);
+
+  /* tokenized accents */
+  --accent-coin: var(--gm-gold);
+  --accent-star: var(--gm-star);
+  --accent-advanced: var(--gm-purple);
+
+  /* borders */
+  --border-soft: var(--gm-line);
+  --border-strong: var(--gm-ink);
+  --focus-ring: var(--gm-blue-light);
+}

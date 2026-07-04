@@ -1,0 +1,27 @@
+<!-- @dsCard group="Colors" viewport="700x150" name="Surfaces, Sky & Earth" subtitle="App backgrounds and East-African scene tones" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../styles.css" />
+<style>
+  body { margin: 0; padding: 20px; background: var(--surface-card); }
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .sw .chip { height: 60px; border-radius: var(--radius-md); border: 1px solid var(--gm-line); }
+  .n { margin-top: 6px; font: var(--text-xs); font-family: var(--font-body); font-weight: 800; color: var(--text-strong); }
+  code { display: block; font-family: ui-monospace, monospace; font-size: 10px; color: var(--text-muted); }
+  .big { grid-column: span 2; }
+</style>
+</head>
+<body>
+<div class="grid">
+  <div class="sw big"><div class="chip gm-sky-bg"></div><div class="n">App sky backdrop</div><code>.gm-sky-bg</code></div>
+  <div class="sw"><div class="chip" style="background:var(--gm-paper)"></div><div class="n">Paper</div><code>--gm-paper</code></div>
+  <div class="sw"><div class="chip" style="background:var(--gm-cream)"></div><div class="n">Cream</div><code>--gm-cream</code></div>
+  <div class="sw"><div class="chip" style="background:var(--gm-earth)"></div><div class="n">Earth</div><code>--gm-earth</code></div>
+  <div class="sw"><div class="chip" style="background:var(--gm-earth-light)"></div><div class="n">Earth light</div><code>--gm-earth-light</code></div>
+  <div class="sw"><div class="chip" style="background:var(--gm-leaf)"></div><div class="n">Leaf</div><code>--gm-leaf</code></div>
+  <div class="sw"><div class="chip" style="background:var(--gm-sky-deep)"></div><div class="n">Sky deep</div><code>--gm-sky-deep</code></div>
+</div>
+</body>
+</html>

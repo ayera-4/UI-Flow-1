@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<!-- @template name="Desktop Auth Flow" description="Tinkercad-style desktop onboarding — landing, Teacher/Parent email login, classes/families management, and learner picture-password join (animal + color + fruit)" -->
+<helmet>
+<script src="./ds-base.js"></script>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<style>
+  .da-select{appearance:none;-webkit-appearance:none;width:100%;padding:12px 38px 12px 14px;border:2px solid #DDE4EE;border-radius:12px;font-family:'Nunito',sans-serif;font-weight:700;font-size:15px;color:#283558;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236B7793' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 14px center;cursor:pointer;}
+  .da-select:focus{outline:none;border-color:#4D98DD;box-shadow:0 0 0 4px rgba(77,152,221,0.25);}
+  .da-input{width:100%;padding:12px 14px;border:2px solid #DDE4EE;border-radius:12px;font-family:'Nunito',sans-serif;font-weight:700;font-size:15px;color:#283558;background:#fff;box-sizing:border-box;}
+  .da-input:focus{outline:none;border-color:#4D98DD;box-shadow:0 0 0 4px rgba(77,152,221,0.25);}
+  .da-input::placeholder{color:#9AA4BC;font-weight:600;}
+  .da-fld{font-size:12px;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;color:#6B7793;margin-bottom:7px;display:block;}
+</style>
+</helmet>
+<div style="min-height:100vh;display:flex;flex-direction:column;font-family:'Nunito',system-ui,sans-serif;background:radial-gradient(120% 70% at 50% 0%, #EFF7FF 0%, #E2F2FF 55%, #C9E4FA 100%);">
+
+  <!-- ===== TOP BAR (hidden on landing) ===== -->
+  <sc-if value="{{ showTopBar }}" hint-placeholder-val="{{ false }}">
+  <div style="height:66px;flex:none;background:#fff;box-shadow:0 2px 10px rgba(40,53,88,0.08);display:flex;align-items:center;padding:0 28px;gap:16px;z-index:5;">
+    <span style="font-family:'Fredoka',sans-serif;font-weight:700;font-size:24px;line-height:1;display:inline-flex;align-items:baseline;cursor:pointer;" onClick="{{ goLanding }}">
+      <span style="color:#F2880E;">STEM</span><span style="color:#2E7BC4;">Genius</span><span style="color:#4D9736;font-size:0.62em;letter-spacing:0.06em;margin-left:4px;">GO</span>
+    </span>
+    <sc-if value="{{ isTeacher }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;color:#2E7BC4;background:#D6EAF8;padding:5px 12px;border-radius:999px;">Teacher</span></sc-if>
+    <sc-if value="{{ isParent }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;color:#6A4FA0;background:#E6DCF5;padding:5px 12px;border-radius:999px;">Parent</span></sc-if>
+    <sc-if value="{{ isLearner }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;font-weight:800;letter-spacing:0.06em;text-transform:uppercase;color:#4D9736;background:#DCEFCB;padding:5px 12px;border-radius:999px;">Learner</span></sc-if>
+    <div style="margin-left:auto;">
+      <x-import component-from-global-scope="GeniusMathAfricaDesignSystem_a3431c.Button" tone="ghost" size="sm" onClick="{{ goLanding }}" hint-size="100px,40px">Log out</x-import>
+    </div>
+  </div>
+  </sc-if>
+
+  <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:40px 24px;overflow-y:auto;">
+
+    <!-- ============ LANDING ============ -->
+    <sc-if value="{{ isLanding }}" hint-placeholder-val="{{ true }}">
+    <div style="text-align:center;max-width:760px;margin:auto;">
+      <span style="font-family:'Fredoka',sans-serif;font-weight:700;font-size:54px;line-height:1;display:inline-flex;align-items:baseline;">
+        <span style="color:#F2880E;">STEM</span><span style="color:#2E7BC4;">Genius</span><span style="color:#4D9736;font-size:0.6em;letter-spacing:0.06em;margin-left:6px;">GO</span>
+      </span>
+      <h1 style="font-family:'Fredoka',sans-serif;font-weight:600;font-size:34px;color:#283558;margin:22px 0 6px;">Welcome to STEMGenius GO</h1>
+      <p style="font-size:18px;font-weight:600;color:#4A5677;margin:0 0 32px;">Have an account with us? Join as a…</p>
+      <div style="display:flex;gap:20px;justify-content:center;flex-wrap:wrap;">
+        <sc-for list="{{ roleCards }}" as="r" hint-placeholder-count="3">
+          <button onClick="{{ r.onPick }}" style="width:210px;padding:28px 20px;border-radius:24px;border:3px solid transparent;background:#fff;box-shadow:0 8px 22px rgba(40,53,88,0.14);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:12px;transition:transform 160ms cubic-bezier(0.34,1.56,0.64,1);">
+            <span style="font-size:46px;line-height:1;">{{ r.emoji }}</span>
+            <span style="font-family:'Fredoka',sans-serif;font-weight:600;font-size:22px;color:#283558;">{{ r.label }}</span>
+            <span style="font-size:13px;font-weight:700;color:#6B7793;text-align:center;line-height:1.35;">{{ r.desc }}</span>
+          </button>
+        </sc-for>
+      </div>
+      <p style="font-size:16px;font-weight:700;color:#4A5677;margin:32px 0 0;">Don't have an account yet?
+        <span style="color:#2E7BC4;text-decoration:underline;cursor:pointer;">Sign up to join</span>
+      </p>
+    </div>
+    </sc-if>
+
+    <!-- ============ AUTH (Teacher / Parent login) ============ -->
+    <sc-if value="{{ isAuth }}" hint-placeholder-val="{{ false }}">
+    <div style="width:100%;max-width:420px;background:#fff;border-radius:28px;box-shadow:0 18px 44px rgba(40,53,88,0.18);padding:34px 32px;margin:auto;">
+      <div style="text-align:center;font-size:42px;">{{ roleEmoji }}</div>
+      <h2 style="font-family:'Fredoka',sans-serif;font-weight:600;font-size:26px;color:#283558;text-align:center;margin:6px 0 22px;">{{ roleLabel }} Log In</h2>
+      <label class="da-fld">Email</label>
+      <input class="da-input" type="email" placeholder="you@school.ug" value="{{ email }}" onInput="{{ onEmail }}" style="margin-bottom:16px;" />
+      <label class="da-fld">Password</label>
+      <input class="da-input" type="password" placeholder="••••••••" value="{{ password }}" onInput="{{ onPassword }}" style="margin-bottom:22px;" />
+      <x-import component-from-global-scope="GeniusMathAfricaDesignSystem_a3431c.Button" tone="primary" size="lg" block="{{ true }}" onClick="{{ goGroups }}" hint-size="100%,56px">Log In with Email</x-import>
+      <div style="display:flex;align-items:center;gap:12px;margin:18px 0;color:#9AA4BC;font-size:13px;font-weight:800;">
+        <span style="flex:1;height:1px;background:#DDE4EE;"></span>OR<span style="flex:1;height:1px;background:#DDE4EE;"></span>
+      </div>
+      <button onClick="{{ goGroups }}" style="width:100%;display:flex;align-items:center;justify-content:center;gap:10px;padding:13px;border:2px solid #DDE4EE;border-radius:999px;background:#fff;font-family:'Nunito';font-weight:800;font-size:15px;color:#283558;cursor:pointer;">
+        <span style="font-size:18px;font-weight:800;color:#4285F4;">G</span> Sign in with Google
+      </button>
+      <p style="text-align:center;margin:20px 0 0;font-size:14px;font-weight:700;color:#6B7793;cursor:pointer;" onClick="{{ goLanding }}">← Back</p>
+    </div>
+    </sc-if>
+
+    <!-- ============ GROUPS LIST (Classes / Families) ============ -->
+    <sc-if value="{{ isGroups }}" hint-placeholder-val="{{ false }}">
+    <div style="width:100%;max-width:880px;">
+      <div style="display:flex;align-items:flex-end;gap:14px;margin-bottom:22px;">
+        <div>
+          <h2 style="font-family:'Fredoka',sans-serif;font-weight:600;font-size:30px;color:#283558;margin:0;">My {{ groupsWord }}</h2>
+          <p style="font-size:15px;font-weight:700;color:#6B7793;margin:4px 0 0;">Pick a {{ groupWord }} to manage, or start a new one.</p>
+        </div>
+        <div style="margin-left:auto;">
+          <x-import component-from-global-scope="GeniusMathAfricaDesignSystem_a3431c.Button" tone="go" size="md" onClick="{{ openCreate }}" hint-size="180px,48px">+ New {{ groupWord }}</x-import>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:18px;">
+        <sc-for list="{{ groups }}" as="g" hint-placeholder-count="3">
+          <div onClick="{{ g.onOpen }}" style="background:#fff;border-radius:20px;box-shadow:0 6px 16px rgba(40,53,88,0.12);padding:22px;cursor:pointer;display:flex;align-items:center;gap:16px;transition:transform 160ms;">
+            <div style="width:60px;height:60px;border-radius:18px;background:#D6EAF8;display:flex;align-items:center;justify-content:center;font-size:30px;flex:none;">{{ g.emoji }}</div>
+            <div style="flex:1;min-width:0;">
+              <div style="font-family:'Fredoka',sans-serif;font-weight:600;font-size:21px;color:#283558;">{{ g.name }}</div>
+              <div style="font-size:14px;font-weight:700;color:#6B7793;">{{ g.count }} {{ g.memberWord }} · {{ g.subject }}</div>
+            </div>
+            <span style="font-size:24px;color:#9AA4BC;">→</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    </sc-if>
+
+    <!-- ============ GROUP DETAIL ============ -->
+    <sc-if value="{{ isDetail }}" hint-placeholder-val="{{ false }}">
+    <div style="width:100%;max-width:880px;">
+      <p style="font-size:14px;font-weight:800;color:#6B7793;margin:0 0 10px;cursor:pointer;" onClick="{{ goGroups }}">← All {{ groupsWord }}</p>
+      <div style="display:flex;gap:18px;align-items:stretch;margin-bottom:22px;flex-wrap:wrap;">
+        <div style="flex:2;min-width:300px;background:#fff;border-radius:20px;box-shadow:0 6px 16px rgba(40,53,88,0.12);padding:24px;">
+          <h2 style="font-family:'Fredoka',sans-serif;font-weight:600;font-size:28px;color:#283558;margin:0 0 4px;">{{ currentName }}</h2>
+          <p style="font-size:15px;font-weight:700;color:#6B7793;margin:0;">{{ memberCount }} {{ membersWord }} enrolled</p>
+        </div>
+        <div style="flex:1;min-width:220px;background:linear-gradient(135deg,#2E7BC4,#1F5C99);border-radius:20px;box-shadow:0 6px 16px rgba(40,53,88,0.18);padding:24px;color:#fff;display:flex;flex-direction:column;justify-content:center;">
+          <div style="font-size:12px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;opacity:0.85;">{{ codeLabel }}</div>
+          <div style="font-family:'Nunito';font-weight:800;font-size:34px;letter-spacing:3px;margin-top:4px;">{{ currentCode }}</div>
+          <div style="font-size:13px;font-weight:600;opacity:0.85;margin-top:6px;">Share this code so {{ membersWord }} can join.</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;margin-bottom:14px;">
+        <h3 style="font-family:'Fredoka',sans-serif;font-weight:600;font-size:20px;color:#283558;margin:0;">{{ membersWord }}</h3>
+        <div style="margin-left:auto;">
+          <x-import component-from-global-scope="GeniusMathAfricaDesignSystem_a3431c.Button" tone="go" size="sm" onClick="{{ openAdd }}" hint-size="150px,40px">+ Add {{ memberWord }}</x-import>
+        </div>
+      </div>
+      <div style="background:#fff;border-radius:20px;box-shadow:0 6px 16px rgba(40,53,88,0.12);overflow:hidden;">
+        <sc-for list="{{ members }}" as="m" hint-placeholder-count="3">
+          <div style="display:flex;align-items:center;gap:14px;padding:14px 20px;border-bottom:1px solid #EDF1F7;">
+            <div style="width:46px;height:46px;border-radius:50%;background:#EFF7FF;display:flex;align-items:center;justify-content:center;font-size:24px;flex:none;">{{ m.animal }}</div>
+            <div style="flex:1;min-width:0;">
+              <div style="font-family:'Nunito';font-weight:800;font-size:16px;color:#283558;">{{ m.name }}</div>
+              <div style="font-size:13px;font-weight:700;color:#6B7793;">@{{ m.username }} · {{ m.pass }}</div>
+            </div>
+            <span style="font-size:13px;font-weight:800;color:#4D9736;background:#DCEFCB;padding:5px 11px;border-radius:999px;">{{ m.accuracy }}%</span>
+            <button onClick="{{ m.onRemove }}" title="Remove" style="width:34px;height:34px;border-radius:50%;border:none;background:#FAD9D2;color:#A8321F;font-size:18px;font-weight:800;cursor:pointer;flex:none;">×</button>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    </sc-if>
+
+    <!-- ============ LEARNER: choose group type ============ -->
+    <sc-if value="{{ isLgRole }}" hint-placeholder-val="{{ false }}">
+    <div style="text-align:center;max-width:620px;margin:auto;">
+      <div style="font-size:60px;">🙋</div>
+      <h1 style="font-family:'Fredoka',sans-serif;font-weight:600;font-size:34px;color:#283558;margin:14px 0 28px;">I am part of a…</h1>
+      <div style="display:flex;gap:20px;justify-content:center;">
+        <button onClick="{{ pickClass }}" style="width:230px;padding:30px 20px;border-radius:24px;background:#fff;cursor:pointer;border:3px solid transparent;box-shadow:0 8px 22px rgba(40,53,88,0.14);display:flex;flex-direction:column;align-items:center;gap:10px;transition:all 160ms cubic-bezier(0.34,1.56,0.64,1);">
+          <span style="font-size:46px;">🏫</span>
+          <span style="font-family:'Fredoka',sans-serif;font-weight:600;font-size:24px;color:#283558;white-space:nowrap;">A Class</span>
+          <span style="font-size:13px;font-weight:700;color:#6B7793;">My teacher gave me a code</span>
+        </button>
+        <button onClick="{{ pickFamily }}" style="width:230px;padding:30px 20px;border-radius:24px;background:#fff;cursor:pointer;border:3px solid transparent;box-shadow:0 8px 22px rgba(40,53,88,0.14);display:flex;flex-direction:column;align-items:center;gap:10px;transition:all 160ms cubic-bezier(0.34,1.56,0.64,1);">
+          <span style="font-size:46px;">🏠</span>
+          <span style="font-family:'Fredoka',sans-serif;font-weight:600;font-size:24px;color:#283558;white-space:nowrap;">A Family</span>
+          <span style="font-size:13px;font-weight:700;color:#6B7793;">My parent gave me a code</span>
+        </button>
+      </div>
+      <p style="font-size:14px;font-weight:700;color:#6B7793;margin-top:26px;cursor:pointer;" onClick="{{ goLanding }}">← Back</p>
+    </div>
+    </sc-if>
+
+    <!-- ============ LEARNER: enter code ============ -->
+    <sc-if value="{{ isLgCode }}" hint-placeholder-val="{{ false }}">
+    <div style="width:100%;max-width:400px;background:#fff;border-radius:28px;box-shadow:0 18px 44px rgba(40,53,88,0.18);padding:34px 32px;text-align:center;margin:auto;">
+      <div style="font-size:46px;">{{ lgTargetEmoji }}</div>
+      <h2 style="font-family:'Fredoka',sans-serif;font-weight:600;font-size:26px;color:#283558;margin:8px 0 6px;">Enter your {{ lgTargetWord }} code</h2>
+      <p style="font-size:15px;font-weight:700;color:#6B7793;margin:0 0 22px;">Ask your {{ lgTargetOwner }} if you don't have it.</p>
+      <input class="da-input" placeholder="KAMP-7Q42" value="{{ learnerCode }}" onInput="{{ onLearnerCode }}" style="text-align:center;font-size:24px;letter-spacing:3px;text-transform:uppercase;margin-bottom:22px;" />
+      <x-import component-from-global-scope="GeniusMathAfricaDesignSystem_a3431c.Button" tone="primary" size="lg" block="{{ true }}" onClick="{{ goLgPass }}" hint-size="100%,56px">Go to my {{ lgTargetWord }}</x-import>
+      <p style="font-size:14px;font-weight:700;color:#6B7793;margin:18px 0 0;cursor:pointer;" onClick="{{ goLgRole }}">← Back</p>
+    </div>
+    </sc-if>
+
+    <!-- ============ LEARNER: picture password ============ -->
+    <sc-if value="{{ isLgPass }}" hint-placeholder-val="{{ false }}">
+    <div style="width:100%;max-width:440px;background:#fff;border-radius:28px;box-shadow:0 18px 44px rgba(40,53,88,0.18);padding:34px 32px;text-align:center;margin:auto;">
+      <h2 style="font-family:'Fredoka',sans-serif;font-weight:600;font-size:26px;color:#283558;margin:0 0 4px;">Your secret password</h2>
+      <p style="font-size:15px;font-weight:700;color:#6B7793;margin:0 0 20px;">Pick your animal, colour and fruit.</p>
+      <div style="display:flex;justify-content:center;gap:12px;margin-bottom:22px;">
+        <div style="width:64px;height:64px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:32px;box-shadow:inset 0 0 0 2px #DDE4EE;">{{ pickedAnimalEmoji }}</div>
+        <sc-if value="{{ colorNone }}" hint-placeholder-val="{{ true }}"><div style="width:64px;height:64px;border-radius:18px;background:#EDF1F7;box-shadow:inset 0 0 0 2px #DDE4EE;"></div></sc-if>
+        <sc-if value="{{ colorRed }}" hint-placeholder-val="{{ false }}"><div style="width:64px;height:64px;border-radius:18px;background:#E0533D;box-shadow:inset 0 0 0 2px #DDE4EE;"></div></sc-if>
+        <sc-if value="{{ colorBlue }}" hint-placeholder-val="{{ false }}"><div style="width:64px;height:64px;border-radius:18px;background:#2E7BC4;box-shadow:inset 0 0 0 2px #DDE4EE;"></div></sc-if>
+        <sc-if value="{{ colorGreen }}" hint-placeholder-val="{{ false }}"><div style="width:64px;height:64px;border-radius:18px;background:#4D9736;box-shadow:inset 0 0 0 2px #DDE4EE;"></div></sc-if>
+        <sc-if value="{{ colorYellow }}" hint-placeholder-val="{{ false }}"><div style="width:64px;height:64px;border-radius:18px;background:#F7C948;box-shadow:inset 0 0 0 2px #DDE4EE;"></div></sc-if>
+        <sc-if value="{{ colorPurple }}" hint-placeholder-val="{{ false }}"><div style="width:64px;height:64px;border-radius:18px;background:#9B7FC4;box-shadow:inset 0 0 0 2px #DDE4EE;"></div></sc-if>
+        <div style="width:64px;height:64px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:32px;box-shadow:inset 0 0 0 2px #DDE4EE;">{{ pickedFruitEmoji }}</div>
+      </div>
+      <div style="text-align:left;display:flex;flex-direction:column;gap:14px;margin-bottom:24px;">
+        <div><label class="da-fld">Animal</label>
+          <select class="da-select" value="{{ form.animal }}" onChange="{{ onAnimal }}">
+            <option value="">Choose an animal…</option><option value="giraffe">🦒 Giraffe</option><option value="lion">🦁 Lion</option><option value="elephant">🐘 Elephant</option><option value="zebra">🦓 Zebra</option><option value="parrot">🦜 Parrot</option>
+          </select></div>
+        <div><label class="da-fld">Colour</label>
+          <select class="da-select" value="{{ form.color }}" onChange="{{ onColor }}">
+            <option value="">Choose a colour…</option><option value="red">Red</option><option value="blue">Blue</option><option value="green">Green</option><option value="yellow">Yellow</option><option value="purple">Purple</option>
+          </select></div>
+        <div><label class="da-fld">Fruit</label>
+          <select class="da-select" value="{{ form.fruit }}" onChange="{{ onFruit }}">
+            <option value="">Choose a fruit…</option><option value="banana">🍌 Banana</option><option value="mango">🥭 Mango</option><option value="pineapple">🍍 Pineapple</option><option value="watermelon">🍉 Watermelon</option><option value="orange">🍊 Orange</option>
+          </select></div>
+      </div>
+      <x-import component-from-global-scope="GeniusMathAfricaDesignSystem_a3431c.Button" tone="go" size="lg" block="{{ true }}" disabled="{{ passIncomplete }}" onClick="{{ goLgDone }}" hint-size="100%,56px">Enter</x-import>
+      <p style="font-size:14px;font-weight:700;color:#6B7793;margin:18px 0 0;cursor:pointer;" onClick="{{ goLgCode }}">← Back</p>
+    </div>
+    </sc-if>
+
+    <!-- ============ LEARNER: success ============ -->
+    <sc-if value="{{ isLgDone }}" hint-placeholder-val="{{ false }}">
+    <div style="text-align:center;max-width:440px;margin:auto;">
+      <div style="font-size:80px;">🎉</div>
+      <h1 style="font-family:'Fredoka',sans-serif;font-weight:700;font-size:42px;color:#283558;margin:10px 0;">You're in!</h1>
+      <p style="font-size:17px;font-weight:600;color:#4A5677;margin:0 0 26px;">Welcome to your {{ lgTargetWord }}. Time to start learning math for life.</p>
+      <x-import component-from-global-scope="GeniusMathAfricaDesignSystem_a3431c.Button" tone="primary" size="lg" onClick="{{ goLanding }}" hint-size="200px,56px">Start Learning →</x-import>
+    </div>
+    </sc-if>
+
+  </div>
+
+  <!-- ============ MODAL: Create group ============ -->
+  <sc-if value="{{ showCreate }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;inset:0;background:rgba(40,53,88,0.4);display:flex;align-items:center;justify-content:center;padding:24px;z-index:20;">
+    <div style="width:100%;max-width:440px;background:#fff;border-radius:28px;box-shadow:0 24px 60px rgba(40,53,88,0.32);padding:30px 30px 26px;">
+      <div style="display:flex;align-items:center;margin-bottom:20px;">
+        <h2 style="font-family:'Fredoka',sans-serif;font-weight:600;font-size:24px;color:#283558;margin:0;white-space:nowrap;">New {{ groupWord }}</h2>
+        <button onClick="{{ closeModals }}" style="margin-left:auto;width:34px;height:34px;border-radius:50%;border:none;background:#EDF1F7;color:#6B7793;font-size:18px;font-weight:800;cursor:pointer;">×</button>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:24px;">
+        <div><label class="da-fld">{{ groupWord }} Name</label>
+          <input class="da-input" placeholder="{{ groupNamePlaceholder }}" value="{{ form.groupName }}" onInput="{{ onGroupName }}" /></div>
+        <div><label class="da-fld">{{ subgroupLabel }}</label>
+          <select class="da-select" value="{{ form.subgroup }}" onChange="{{ onSubgroup }}">
+            <sc-for list="{{ subgroupOptions }}" as="o" hint-placeholder-count="3"><option value="{{ o }}">{{ o }}</option></sc-for>
+          </select></div>
+        <div><label class="da-fld">Subject</label>
+          <select class="da-select" value="{{ form.subject }}" onChange="{{ onSubject }}">
+            <option value="Mathematics">Mathematics</option><option value="Science">Science</option><option value="English">English</option>
+          </select></div>
+      </div>
+      <x-import component-from-global-scope="GeniusMathAfricaDesignSystem_a3431c.Button" tone="go" size="lg" block="{{ true }}" onClick="{{ createGroup }}" hint-size="100%,56px">Create {{ groupWord }}</x-import>
+    </div>
+  </div>
+  </sc-if>
+
+  <!-- ============ MODAL: Add member ============ -->
+  <sc-if value="{{ showAdd }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;inset:0;background:rgba(40,53,88,0.4);display:flex;align-items:center;justify-content:center;padding:24px;z-index:20;">
+    <div style="width:100%;max-width:460px;background:#fff;border-radius:28px;box-shadow:0 24px 60px rgba(40,53,88,0.32);padding:30px;max-height:90vh;overflow-y:auto;">
+      <div style="display:flex;align-items:center;margin-bottom:18px;">
+        <h2 style="font-family:'Fredoka',sans-serif;font-weight:600;font-size:24px;color:#283558;margin:0;white-space:nowrap;">Add {{ memberWord }}</h2>
+        <button onClick="{{ closeModals }}" style="margin-left:auto;width:34px;height:34px;border-radius:50%;border:none;background:#EDF1F7;color:#6B7793;font-size:18px;font-weight:800;cursor:pointer;">×</button>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:22px;">
+        <div><label class="da-fld">{{ memberWord }} Username</label>
+          <input class="da-input" placeholder="e.g. aisha_g" value="{{ form.username }}" onInput="{{ onUsername }}" /></div>
+        <div style="background:#EFF7FF;border-radius:14px;padding:14px;">
+          <label class="da-fld" style="margin-bottom:10px;">Picture Password</label>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <select class="da-select" value="{{ form.animal }}" onChange="{{ onAnimal }}">
+              <option value="">Animal…</option><option value="giraffe">🦒 Giraffe</option><option value="lion">🦁 Lion</option><option value="elephant">🐘 Elephant</option><option value="zebra">🦓 Zebra</option><option value="parrot">🦜 Parrot</option>
+            </select>
+            <select class="da-select" value="{{ form.color }}" onChange="{{ onColor }}">
+              <option value="">Colour…</option><option value="red">Red</option><option value="blue">Blue</option><option value="green">Green</option><option value="yellow">Yellow</option><option value="purple">Purple</option>
+            </select>
+            <select class="da-select" value="{{ form.fruit }}" onChange="{{ onFruit }}">
+              <option value="">Fruit…</option><option value="banana">🍌 Banana</option><option value="mango">🥭 Mango</option><option value="pineapple">🍍 Pineapple</option><option value="watermelon">🍉 Watermelon</option><option value="orange">🍊 Orange</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <x-import component-from-global-scope="GeniusMathAfricaDesignSystem_a3431c.Button" tone="go" size="lg" block="{{ true }}" onClick="{{ addMember }}" hint-size="100%,56px">Enter</x-import>
+    </div>
+  </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    role: null,
+    screen: 'landing',
+    email: '', password: '',
+    showCreate: false, showAdd: false,
+    classes: [
+      { name: 'P5 Mathematics', subject: 'Mathematics', count: 24, code: 'KAMP-7Q42' },
+      { name: 'P6 Science Club', subject: 'Science', count: 18, code: 'JINJ-3R81' },
+    ],
+    families: [
+      { name: 'The Okello Home', subject: 'Mathematics', count: 3, code: 'HOME-5K20' },
+      { name: 'Nakato Family', subject: 'Science', count: 2, code: 'FAMI-9T44' },
+    ],
+    members: [
+      { animal: '🦒', name: 'Aisha N.', username: 'aisha_g', pass: 'Giraffe · Blue · Mango', accuracy: 92 },
+      { animal: '🦁', name: 'Brian K.', username: 'brian_l', pass: 'Lion · Green · Banana', accuracy: 78 },
+      { animal: '🐘', name: 'Cathy M.', username: 'cathy_e', pass: 'Elephant · Red · Orange', accuracy: 85 },
+    ],
+    currentIdx: 0,
+    lgTarget: 'class',
+    learnerCode: '',
+    form: { groupName: '', subgroup: '', subject: 'Mathematics', username: '', animal: '', color: '', fruit: '' },
+  };
+
+  setF(patch) { this.setState({ form: { ...this.state.form, ...patch } }); }
+  randCode(prefix) {
+    const cs = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+    let t = ''; for (let i = 0; i < 4; i++) t += cs[Math.floor(Math.random() * cs.length)];
+    return prefix + '-' + t;
+  }
+
+  renderVals() {
+    const s = this.state;
+    const isTeacher = s.role === 'teacher';
+    const isParent = s.role === 'parent';
+    const isLearner = s.role === 'learner';
+
+    const groupWord = isParent ? 'Family' : 'Class';
+    const groupsWord = isParent ? 'Families' : 'Classes';
+    const memberWord = isParent ? 'Kid' : 'Student';
+    const membersWord = isParent ? 'Kids' : 'Students';
+    const codeLabel = isParent ? 'Family Code' : 'Class Code';
+    const roleLabel = isTeacher ? 'Teacher' : isParent ? 'Parent' : 'Learner';
+    const roleEmoji = isTeacher ? '👩🏽‍🏫' : isParent ? '👨🏾‍👧' : '🙋';
+
+    const roleDefs = [
+      { id: 'teacher', emoji: '👩🏽‍🏫', label: 'Teacher', desc: 'Create classes and track your learners' },
+      { id: 'parent', emoji: '👨🏾‍👧', label: 'Parent', desc: 'Set up a family and follow your kids' },
+      { id: 'learner', emoji: '🧒🏾', label: 'Learner', desc: 'Join your class or family with a code' },
+    ];
+    const roleCards = roleDefs.map(r => ({
+      ...r,
+      onPick: () => this.setState({ role: r.id, screen: r.id === 'learner' ? 'lg-role' : 'auth' }),
+    }));
+
+    const rawGroups = isParent ? s.families : s.classes;
+    const groupEmojis = isParent ? ['🏠', '👪', '🏡', '🧺'] : ['📐', '🔬', '📚', '🧮'];
+    const groups = rawGroups.map((g, i) => ({
+      name: g.name, subject: g.subject, count: g.count,
+      memberWord: g.count === 1 ? memberWord : membersWord,
+      emoji: groupEmojis[i % 4],
+      onOpen: () => this.setState({ currentIdx: i, screen: 'detail' }),
+    }));
+    const current = rawGroups[s.currentIdx] || rawGroups[0] || { name: '', code: '' };
+
+    const members = s.members.map((m, i) => ({
+      ...m,
+      onRemove: () => this.setState({ members: s.members.filter((_, j) => j !== i) }),
+    }));
+
+    const lgTargetWord = s.lgTarget === 'family' ? 'Family' : 'Class';
+    const lgTargetEmoji = s.lgTarget === 'family' ? '🏠' : '🏫';
+    const lgTargetOwner = s.lgTarget === 'family' ? 'parent' : 'teacher';
+
+    const animalEmoji = { giraffe: '🦒', lion: '🦁', elephant: '🐘', zebra: '🦓', parrot: '🦜' };
+    const fruitEmoji = { banana: '🍌', mango: '🥭', pineapple: '🍍', watermelon: '🍉', orange: '🍊' };
+    const f = s.form;
+
+    const subgroupOptions = isParent
+      ? ['Ages 6–8', 'Ages 9–11', 'Ages 12–13']
+      : ['Lower Primary', 'Upper Primary', 'P5 Stream A', 'P6 Stream B'];
+    const subgroupLabel = isParent ? 'Kid Age Group' : 'Learner Group';
+
+    const createGroup = () => {
+      const name = (f.groupName || '').trim() || ('New ' + groupWord);
+      const entry = { name, subject: f.subject || 'Mathematics', count: 0, code: this.randCode(isParent ? 'FAM' : 'CLS') };
+      const key = isParent ? 'families' : 'classes';
+      const list = [...s[key], entry];
+      this.setState({ [key]: list, currentIdx: list.length - 1, showCreate: false, screen: 'detail',
+        form: { ...f, groupName: '', subgroup: '' } });
+    };
+
+    const addMember = () => {
+      const uname = (f.username || '').trim() || 'new_learner';
+      const cap = (x) => x ? x.charAt(0).toUpperCase() + x.slice(1) : '—';
+      const passStr = [cap(f.animal), cap(f.color), cap(f.fruit)].join(' · ');
+      const newM = { animal: animalEmoji[f.animal] || '🙂', name: cap(uname.replace(/_/g, ' ')),
+        username: uname, pass: passStr, accuracy: 0 };
+      this.setState({ members: [...s.members, newM], showAdd: false,
+        form: { ...f, username: '', animal: '', color: '', fruit: '' } });
+    };
+
+    return {
+      showTopBar: s.screen !== 'landing',
+      isTeacher, isParent, isLearner,
+      roleLabel, roleEmoji,
+      goLanding: () => this.setState({ screen: 'landing', role: null }),
+
+      isLanding: s.screen === 'landing',
+      isAuth: s.screen === 'auth',
+      isGroups: s.screen === 'groups',
+      isDetail: s.screen === 'detail',
+      isLgRole: s.screen === 'lg-role',
+      isLgCode: s.screen === 'lg-code',
+      isLgPass: s.screen === 'lg-pass',
+      isLgDone: s.screen === 'lg-done',
+
+      roleCards,
+
+      email: s.email, password: s.password,
+      onEmail: (e) => this.setState({ email: e.target.value }),
+      onPassword: (e) => this.setState({ password: e.target.value }),
+      goGroups: () => this.setState({ screen: 'groups' }),
+
+      groupWord, groupsWord, memberWord, membersWord, codeLabel,
+      groups, openCreate: () => this.setState({ showCreate: true }),
+
+      currentName: current.name, currentCode: current.code,
+      memberCount: s.members.length,
+      members, openAdd: () => this.setState({ showAdd: true }),
+
+      pickClass: () => this.setState({ lgTarget: 'class', screen: 'lg-code' }),
+      pickFamily: () => this.setState({ lgTarget: 'family', screen: 'lg-code' }),
+      lgTargetWord, lgTargetEmoji, lgTargetOwner,
+      learnerCode: s.learnerCode,
+      onLearnerCode: (e) => this.setState({ learnerCode: e.target.value }),
+      goLgRole: () => this.setState({ screen: 'lg-role' }),
+      goLgCode: () => this.setState({ screen: 'lg-code' }),
+      goLgPass: () => this.setState({ screen: 'lg-pass' }),
+      goLgDone: () => this.setState({ screen: 'lg-done' }),
+
+      form: f,
+      onAnimal: (e) => this.setF({ animal: e.target.value }),
+      onColor: (e) => this.setF({ color: e.target.value }),
+      onFruit: (e) => this.setF({ fruit: e.target.value }),
+      pickedAnimalEmoji: animalEmoji[f.animal] || '?',
+      pickedFruitEmoji: fruitEmoji[f.fruit] || '?',
+      colorNone: !f.color,
+      colorRed: f.color === 'red',
+      colorBlue: f.color === 'blue',
+      colorGreen: f.color === 'green',
+      colorYellow: f.color === 'yellow',
+      colorPurple: f.color === 'purple',
+      passIncomplete: !(f.animal && f.color && f.fruit),
+
+      showCreate: s.showCreate, showAdd: s.showAdd,
+      closeModals: () => this.setState({ showCreate: false, showAdd: false }),
+      subgroupOptions, subgroupLabel,
+      groupNamePlaceholder: isParent ? 'e.g. The Okello Home' : 'e.g. P5 Mathematics',
+      onGroupName: (e) => this.setF({ groupName: e.target.value }),
+      onSubgroup: (e) => this.setF({ subgroup: e.target.value }),
+      onSubject: (e) => this.setF({ subject: e.target.value }),
+      onUsername: (e) => this.setF({ username: e.target.value }),
+      createGroup, addMember,
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+/* ============================================================
+   GeniusMath Africa — Spacing & layout tokens
+   4px base grid. Touch targets generous (kids' fingers).
+   ============================================================ */
+
+:root {
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* min interactive target — never below 48px for learners */
+  --tap-min: 48px;
+  --tap-key: 60px;     /* numeric keypad keys */
+
+  /* content widths */
+  --app-width: 420px;     /* learner mobile frame */
+  --tablet-width: 1024px; /* educator dashboard   */
+
+  /* gutters */
+  --gutter-app: 20px;
+  --gutter-screen: 24px;
+}

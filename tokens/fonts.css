@@ -1,0 +1,13 @@
+/* ============================================================
+   GeniusMath Africa — Webfonts
+   ------------------------------------------------------------
+   No brand font files were supplied with the source material.
+   These are GOOGLE FONTS substitutions chosen to match the
+   chunky, rounded, friendly wordmark and child-legible UI text
+   seen in the app mockups:
+     • Fredoka  → display / headings / wordmark  (rounded geometric, chunky)
+     • Nunito   → body / UI / numerals            (rounded, highly legible)
+   ⚠ SUBSTITUTION — replace with the real brand fonts when available.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:ital,wght@0,400;0,500;0,600;0,700;0,800;1,600&display=swap');

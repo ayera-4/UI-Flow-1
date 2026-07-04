@@ -1,0 +1,77 @@
+<!-- @dsCard group="Components" viewport="700x520" name="Game — StatChip, ProgressBar, StarRating, AchievementBadge, NumKey" subtitle="Gamification primitives: balances, mastery, scores, medals, keypad" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet" href="../../styles.css" />
+<style>
+  body { margin: 0; padding: 24px; background: var(--surface-app); }
+  .sec { background: var(--surface-card); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm);
+         padding: 18px 20px; margin-bottom: 16px; }
+  .row { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
+  .lbl { font: var(--text-xs); font-family: var(--font-body); font-weight: 700; letter-spacing: var(--ls-label);
+         text-transform: uppercase; color: var(--text-faint); margin-bottom: 12px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<script type="text/babel">
+  const { StatChip, ProgressBar, StarRating, AchievementBadge, NumKey } = window.GeniusMathAfricaDesignSystem_a3431c;
+  function Demo() {
+    return (
+      <div>
+        <div className="sec">
+          <div className="lbl">StatChip — balances</div>
+          <div className="row">
+            <StatChip kind="coin" value={250} />
+            <StatChip kind="star" value={12} />
+            <StatChip kind="xp" value="50 XP" />
+            <StatChip kind="streak" value="5 Days" />
+          </div>
+        </div>
+
+        <div className="sec">
+          <div className="lbl">ProgressBar — skill mastery</div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+            <ProgressBar value={90} tone="green" label="Counting Money" showValue />
+            <ProgressBar value={80} tone="blue" label="Adding Money" showValue />
+            <ProgressBar value={75} tone="purple" label="Making Change" showValue />
+          </div>
+        </div>
+
+        <div className="sec">
+          <div className="lbl">StarRating &nbsp;·&nbsp; NumKey</div>
+          <div className="row" style={{ justifyContent: 'space-between' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <StarRating value={1} max={3} />
+              <StarRating value={2} max={3} />
+              <StarRating value={3} max={3} />
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, auto)', gap: 10 }}>
+              {[1,2,3,4,5,6].map(n => <NumKey key={n} tone={n % 2 ? 'green' : 'blue'} size={52}>{n}</NumKey>)}
+            </div>
+          </div>
+        </div>
+
+        <div className="sec">
+          <div className="lbl">AchievementBadge — trophy case</div>
+          <div className="row">
+            <AchievementBadge glyph="🐷" name="Money Beginner" tone="gold" />
+            <AchievementBadge glyph="🛒" name="Smart Shopper" tone="green" />
+            <AchievementBadge glyph="💰" name="Saver" tone="blue" />
+            <AchievementBadge glyph="⚡" name="Quick Counter" tone="purple" locked />
+            <AchievementBadge glyph="📊" name="Budget Planner" tone="orange" locked />
+          </div>
+        </div>
+      </div>
+    );
+  }
+  ReactDOM.createRoot(document.getElementById('root')).render(<Demo />);
+</script>
+</body>
+</html>

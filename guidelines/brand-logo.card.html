@@ -1,0 +1,38 @@
+<!-- @dsCard group="Brand" viewport="700x300" name="Logo & Tagline" subtitle="The GeniusMath AFRICA wordmark — Math for Life." -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="../styles.css" />
+<style>
+  body { margin: 0; padding: 0; }
+  .stage { min-height: 300px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; }
+  .gm-wordmark.big { font-size: 52px; }
+  .tag { font: var(--text-lead); font-family: var(--font-display); font-weight: 500; color: var(--gm-ink-soft); font-style: italic; }
+  .variants { display: flex; gap: 40px; margin-top: 28px; align-items: center; }
+  .chip { padding: 18px 22px; border-radius: var(--radius-lg); }
+  .note { font: var(--text-xs); font-family: var(--font-body); font-weight: 700; letter-spacing: var(--ls-label);
+          text-transform: uppercase; color: var(--text-faint); text-align: center; margin-top: 10px; }
+</style>
+</head>
+<body>
+<div class="stage gm-sky-bg">
+  <span class="gm-wordmark big"><span class="gm-genius">Genius</span><span class="gm-math">Math</span><span class="gm-africa">Africa</span></span>
+  <span class="tag">Math for Life.</span>
+  <div class="variants">
+    <div style="text-align:center">
+      <div class="chip" style="background:#fff;box-shadow:var(--shadow-card)">
+        <span class="gm-wordmark" style="font-size:26px"><span class="gm-genius">Genius</span><span class="gm-math">Math</span><span class="gm-africa">Africa</span></span>
+      </div>
+      <div class="note">On light</div>
+    </div>
+    <div style="text-align:center">
+      <div class="chip" style="background:var(--gm-ink)">
+        <span class="gm-wordmark" style="font-size:26px"><span class="gm-genius">Genius</span><span style="color:#fff">Math</span><span class="gm-africa" style="color:var(--gm-green-light)">Africa</span></span>
+      </div>
+      <div class="note">On ink</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
